@@ -24,5 +24,11 @@ def save_history_to_html(delta_table: DeltaTable, filename: str) -> None:
     history_df = delta_table.history()
     save_df_to_html(history_df, filename)
 
-def print_table(delta_table: DeltaTable) -> None:
+def print_delta_table(delta_table: DeltaTable) -> None:
     delta_table.toDF().orderBy("id").show()
+
+def write_data_to_delta_table(data: DataFrame, path: str, mode: str = "overwrite") -> None:
+    data.write.format("delta").mode(mode).save(path)
+
+def write_data_to_spark_dataframe(data: DataFrame, path: str, mode: str = "overwrite") -> None:
+    data.write.format("parquet").mode(mode).save(path)
